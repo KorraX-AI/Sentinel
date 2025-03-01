@@ -5,7 +5,7 @@ from stats import crime_statistics
 from map import crime_map
 from news import fetch_news
 
-# Custom styling to enhance user experience
+# Let's spruce up the look and feel with some custom CSS
 st.markdown(
     """
     <style>
@@ -22,51 +22,73 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Initialize session state if not already set
-if "user_authenticated" not in st.session_state:
-    st.session_state["user_authenticated"] = False
+# Set up a simple flag to track if someone’s logged in
+if "logged_in" not in st.session_state:
+    st.session_state["logged_in"] = False
 
-# Sidebar Navigation
-st.sidebar.title("Navigation")
+# Sidebar setup—our app’s navigation hub
+st.sidebar.title("Explore Sentinel")
 
-if st.session_state["user_authenticated"]:
-    st.sidebar.subheader(f"Welcome, {st.session_state.get('username', 'User')}")
+# If the user’s logged in, give them a warm welcome and full access
+if st.session_state["logged_in"]:
+    username = st.session_state.get("username", "Friend")  # Default to "Friend" if no username
+    st.sidebar.subheader(f"Hey there, {username}!")
 
+    # Logout button with a safety net to reset the session
     if st.sidebar.button("Log Out"):
         logout()
-        st.session_state["user_authenticated"] = False  # Ensure user state updates
+        st.session_state["logged_in"] = False
+        st.sidebar.success("You’re logged out—see you soon!")
 
-    page_selection = st.sidebar.radio("Choose an option:", 
-                                      ["Report an Incident", "Crime Trends", "Interactive Map", "Latest Crime News"])
+    # Let users pick what they want to do
+    chosen_page = st.sidebar.radio(
+        "What would you like to do?", 
+        ["Report an Incident", "Check Crime Trends", "Explore the Map", "Read Crime News"]
+    )
 
-    # Page Routing
-    if page_selection == "Report an Incident":
-        report_crime()
-    elif page_selection == "Crime Trends":
-        crime_statistics()
-    elif page_selection == "Interactive Map":
-        crime_map()
-    elif page_selection == "Latest Crime News":
-        fetch_news()
+    # Guide them to the right feature based on their choice
+    try:
+        if chosen_page == "Report an Incident":
+            report_crime()
+        elif chosen_page == "Check Crime Trends":
+            crime_statistics()
+        elif chosen_page == "Explore the Map":
+            crime_map()
+        elif chosen_page == "Read Crime News":
+            fetch_news()
+    except Exception as e:
+        st.error(f"Oops, something went wrong: {str(e)}. Try refreshing or let us know!")
 
+# If they’re not logged in, roll out the welcome mat
 else:
-    # Introduction Section
-    st.title("Sentinel: AI-Powered Crime Intelligence Network")
-    st.write("""
-    **Project Overview:**
-    
-    Crime and cyber threats evolve rapidly, requiring a proactive and community-driven approach to safety. 
-    Sentinel provides an intelligent, real-time crime tracking system integrating predictive analytics, 
-    community reporting, and blockchain-based evidence storage.
-    
-    Join us in making our neighborhoods safer!
-    """)
+    st.title("Welcome to Sentinel: Your Crime Intelligence Ally")
+    st.write(
+        """
+        **What’s Sentinel All About?**
 
-    guest_selection = st.sidebar.radio("Explore Sentinel:", ["View Crime Map", "Latest Crime News", "Sign In"])
+        Crime doesn’t stand still, and neither should we. Sentinel is your go-to tool for staying ahead 
+        of the curve—think real-time crime tracking, community-powered reporting, and some clever 
+        analytics to spot trends. We even use blockchain to keep evidence secure. 
 
-    if guest_selection == "View Crime Map":
-        crime_map()
-    elif guest_selection == "Latest Crime News":
-        fetch_news()
-    elif guest_selection == "Sign In":
-        login()
+        Ready to make our streets safer together? Let’s dive in!
+        """
+    )
+
+    # Give guests a taste of what’s inside
+    guest_choice = st.sidebar.radio(
+        "Take a peek at Sentinel:", 
+        ["See the Crime Map", "Catch Up on News", "Sign In"]
+    )
+
+    # Handle their selection with a bit of care
+    try:
+        if guest_choice == "See the Crime Map":
+            crime_map()
+        elif guest_choice == "Catch Up on News":
+            fetch_news()
+        elif guest_choice == "Sign In":
+            login()
+    except Exception as e:
+        st.error(
+            f"Hmm, we hit a snag: {str(e)}. Maybe try a different option or check your connection?"
+        )
