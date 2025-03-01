@@ -1,4 +1,9 @@
 import streamlit as st
+from auth import login, logout
+from report import report_crime
+from stats import crime_statistics
+from map import crime_map
+from news import fetch_news
 
 st.markdown("""
     <style>
@@ -12,3 +17,4 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
+    
