@@ -4,7 +4,6 @@ Sentinel is a cybersecurity and crime analysis tool that provides various module
 
 ## Features
 
-- **Anomaly Detection**: Identifies unusual patterns that may indicate security threats.
 - **Crime Reporting**: Facilitates reporting of crimes.
 - **Crime Statistics**: Provides crime-related statistical analysis.
 - **Malware Detection**: Detects malicious software.
