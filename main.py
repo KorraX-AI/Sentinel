@@ -6,18 +6,21 @@ from map import crime_map
 from news import fetch_news
 
 # Custom styling to enhance user experience
-st.markdown("""
+st.markdown(
+    """
     <style>
     .reportview-container {
-        background: #1E1E1E; /* Darker theme for readability */
-        color: #EAEAEA;
+        background: #1E1E1E;  /* A dark backdrop feels sleek and easy on the eyes */
+        color: #EAEAEA;       /* Light text for contrast */
     }
     .sidebar .sidebar-content {
-        background: #FF3B30;
-        color: #FFFFFF;
+        background: #FF3B30;  /* A bold red sidebar to grab attention */
+        color: #FFFFFF;       /* White text pops nicely here */
     }
     </style>
-    """, unsafe_allow_html=True)
+    """, 
+    unsafe_allow_html=True
+)
 
 # Initialize session state if not already set
 if "user_authenticated" not in st.session_state:
