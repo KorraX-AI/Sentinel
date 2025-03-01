@@ -1,4 +1,9 @@
 streamlit
+requests
+scikit-learn
 folium
 streamlit-folium
 geopy
+matplotlib
+transformers
+torch
