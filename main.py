@@ -5,7 +5,7 @@ from stats import crime_statistics
 from map import crime_map
 from news import fetch_news
 
-
+# Custom styling to enhance user experience
 st.markdown("""
     <style>
     .reportview-container {
@@ -19,11 +19,11 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-
+# Initialize session state if not already set
 if "user_authenticated" not in st.session_state:
     st.session_state["user_authenticated"] = False
 
-
+# Sidebar Navigation
 st.sidebar.title("Navigation")
 
 if st.session_state["user_authenticated"]:
@@ -31,12 +31,12 @@ if st.session_state["user_authenticated"]:
 
     if st.sidebar.button("Log Out"):
         logout()
-        st.session_state["user_authenticated"] = False  
+        st.session_state["user_authenticated"] = False  # Ensure user state updates
 
     page_selection = st.sidebar.radio("Choose an option:", 
                                       ["Report an Incident", "Crime Trends", "Interactive Map", "Latest Crime News"])
 
-    
+    # Page Routing
     if page_selection == "Report an Incident":
         report_crime()
     elif page_selection == "Crime Trends":
@@ -47,6 +47,7 @@ if st.session_state["user_authenticated"]:
         fetch_news()
 
 else:
+    # Introduction Section
     st.title("Sentinel: AI-Powered Crime Intelligence Network")
     st.write("""
     **Project Overview:**
