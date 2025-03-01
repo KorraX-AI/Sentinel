@@ -28,3 +28,9 @@ def login():
             st.sidebar.success(f"Welcome, {username}!")
         else:
             st.sidebar.error("Oops! Invalid username or password. Please try again.")
+
+def logout():
+    """Logs the user out and clears session data."""
+    st.session_state["user_authenticated"] = False
+    st.session_state["current_user"] = None
+    st.sidebar.success("You have been logged out.")
