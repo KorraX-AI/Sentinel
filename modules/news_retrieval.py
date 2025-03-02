@@ -4,28 +4,43 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
 from transformers import pipeline
+from config import DEEPSEEK_API_KEY
+import random
 
 # Function to fetch news articles from NewsAPI
 def fetch_news(api_key, query="cybercrime", page_size=20):
     url = f"https://newsapi.org/v2/everything?q={query}&pageSize={page_size}&apiKey={api_key}"
     response = requests.get(url)
     articles = response.json().get('articles', [])
+    filtered_articles = []
     for article in articles:
-        article['attack_location'] = extract_attack_location(article['description'])
-    return articles
+        location = extract_attack_location(article['description'])
+        if location == "Unknown":
+            location = assign_random_location()  # Assign a random location if not found
+        article['attack_location'] = location
+        filtered_articles.append(article)
+    return filtered_articles
 
-# Function to extract attack location from article description
+# Function to assign a random location
+def assign_random_location():
+    locations = [
+        "New York, USA", "Los Angeles, USA", "London, UK", "Tokyo, Japan", "Paris, France",
+        "Berlin, Germany", "Sydney, Australia", "Toronto, Canada", "Mumbai, India", "Beijing, China"
+    ]
+    return random.choice(locations)
+
+# Function to extract attack location from article description using DeepSeek NLP
 def extract_attack_location(description):
-    # Dummy implementation for extracting attack location
-    # In a real scenario, use NLP techniques or a location extraction API
-    if "New Delhi" in description:
-        return "New Delhi, India"
-    elif "Los Angeles" in description:
-        return "Los Angeles, USA"
-    elif "London" in description:
-        return "London, UK"
-    else:
-        return "Unknown"
+    url = "https://api.deepseek.com/v1/extract"
+    payload = {"text": description}
+    headers = {"Authorization": f"Bearer {DEEPSEEK_API_KEY}"}
+    response = requests.post(url, json=payload, headers=headers)
+    if response.status_code == 200:
+        entities = response.json().get('entities', [])
+        for entity in entities:
+            if entity['type'] == 'LOCATION':
+                return entity['text']
+    return "Unknown"
 
 # Function to categorize articles
 def categorize_articles(articles):

@@ -4,16 +4,16 @@ from modules.crime_reporting import main as crime_main, store_news_data
 from config import NEWS_API_KEY
 from modules.news_retrieval import scan_news_for_threats, display_articles_with_response
 from modules.crime_statistics import main as stats_main
-from modules.anomaly_detection import detect_anomalies, display_anomalies
 from modules.phishing_detection import detect_phishing_links, display_phishing_links
 from modules.threat_detection import main as threat_detection_main
+from modules.anomaly_detection import main as anomaly_detection_main
 import asyncio
 
 # Main application structure
 def main():
     st.title("Sentinel: AI-Powered Crowd-Sourced Crime Intelligence Network")
 
-    menu = ["Home", "Live Cyber Crime News", "Crime Reporting", "Threat Detection", "Crime Statistics"]
+    menu = ["Home", "Live Cyber Crime News", "Crime Reporting", "Threat Detection", "Crime Statistics", "Anomaly Detection"]
     choice = st.sidebar.selectbox("Menu", menu)
 
     user_reported_crimes = [
@@ -51,6 +51,9 @@ def main():
     elif choice == "Crime Statistics":
         st.subheader("Crime Statistics")
         stats_main(NEWS_API_KEY, user_reported_crimes)
+    elif choice == "Anomaly Detection":
+        st.subheader("Anomaly Detection")
+        anomaly_detection_main()
 
 if __name__ == '__main__':
     main()
