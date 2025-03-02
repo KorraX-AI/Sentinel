@@ -7,6 +7,7 @@ from modules.crime_statistics import main as stats_main
 from modules.anomaly_detection import detect_anomalies, display_anomalies
 from modules.phishing_detection import detect_phishing_links, display_phishing_links
 from modules.threat_detection import main as threat_detection_main
+import asyncio
 
 # Main application structure
 def main():

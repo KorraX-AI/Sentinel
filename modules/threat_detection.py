@@ -26,6 +26,8 @@ def detect_data_breaches(ip_address):
     url = f"https://api.shodan.io/shodan/host/{ip_address}?key={SHODAN_API_KEY}"
     response = requests.get(url)
     result = response.json()
+    if 'error' in result and result['error'] == 'Requires membership or higher to access':
+        return {"error": "This feature requires a Shodan membership or higher to access."}
     return result
 
 # Function to display data breach detection results
