@@ -10,6 +10,7 @@ Sentinel is a cybersecurity and crime analysis tool that provides various module
 - **News Retrieval**: Fetches relevant security and crime-related news.
 - **Phishing Detection**: Identifies potential phishing attacks.
 - **Threat Detection**: Recognizes various security threats.
+- **Anomaly Detection**: Detects anomalies in crime reports.
 
 ## Installation
 
@@ -36,7 +37,6 @@ Run the main application:
 ```sh
 python app.py
 ```
-
 
 ## Contributing
 
